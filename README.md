@@ -1,2 +1,0 @@
-# CMPT383 Project
-
