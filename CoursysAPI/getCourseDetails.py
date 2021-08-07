@@ -1,9 +1,11 @@
+from dataclasses import dataclass
 import json
 import os
 import sys
 import getopt
 import requests
 import rateMyProfScoreExtractor as rmpScore
+from ProfScores import ProfScoresDTO
 
 full_cmd_arguments = sys.argv
 argument_list = full_cmd_arguments[1:]
@@ -30,4 +32,10 @@ for key, value in jsonResponse.items():
 instructorJson = json.loads(instructorJson[1:-1])
 instructorName = instructorJson['name']
 # print(instructorJson['name'])
-print(rmpScore.makeRMPRequest.returnScoreOfProf(teacherName=instructorName))
+score = rmpScore.makeRMPRequest.returnScoreOfProf(teacherName=instructorName)
+course = department+course
+
+profscore = ProfScoresDTO(instructor=instructorName,
+                          course=course, score=score)
+
+print(profscore.returnJson())

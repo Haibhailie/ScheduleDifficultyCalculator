@@ -14,8 +14,6 @@ public class Main {
 
     public static void getCourseDetails() throws URISyntaxException {
         String s;
-//        String path = new File("").getAbsolutePath()+"/getCourseDetails.py";
-//        System.out.println(path);
 
         try {
             Process p = Runtime.getRuntime().exec("python CoursysAPI/getCourseDetails.py"+" 2021 fall cmpt 300 D100"); //Works in IntelliJ
