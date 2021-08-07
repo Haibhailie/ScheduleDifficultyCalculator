@@ -18,6 +18,7 @@ class makeRMPRequest:
             encodedHTML = urlopen(profRMPURL).read().decode('utf-8')
             teacherPageData = re.findall(r'\">(.*?)</', encodedHTML)
             score = teacherPageData[25][-3:]
+            score = re.sub('[^A-Za-z0-9-.]+', '', score)
             return float(score)
 
     def getProfURL(schoolId: int = "U2Nob29sLTE0ODI", teacherName: str = "Greg+Baker"):
