@@ -18,7 +18,7 @@ public class Main {
 //        System.out.println(path);
 
         try {
-            Process p = Runtime.getRuntime().exec("python CoursysAPI/getCourseDetails.py"+" 2021 fall cmpt 300"); //Works in IntelliJ
+            Process p = Runtime.getRuntime().exec("python CoursysAPI/getCourseDetails.py"+" 2021 fall cmpt 300 D100"); //Works in IntelliJ
 
             BufferedReader brInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));
