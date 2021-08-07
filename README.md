@@ -32,5 +32,15 @@ It will display a difficulty score out of 100 (with 100 being a pre-defined stan
     3. Parse and Handle the given JSON and display them in a reasonable manner
 ```
 
+**Exercise 7 Run Instructions:**
+------
+Please run
+`
+docker-compose up 
+`
+from the root of the repository.  
+   
+I have created the Hello.java in the same structure that will be used for the project.  
+Hence, had to modify the dockerfile to reflect the packages that were being used.
 
 
