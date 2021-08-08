@@ -8,7 +8,7 @@ baseURL = "http://www.coursediggers.com/data/{}.json"
 
 def scrapeCourseDiggerForCourse(searchCourseName: str = "CMPT 300"):
 
-    jsonFile = open("CoursysAPI/courseIDPair.json")
+    jsonFile = open("../CoursysAPI/courseIDPair.json")
     jsonData = json.load(jsonFile)
     websiteCourseID = 0
     for i in jsonData['courseIDPairs']:

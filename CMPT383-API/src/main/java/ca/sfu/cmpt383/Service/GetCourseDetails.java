@@ -11,7 +11,7 @@ public class GetCourseDetails {
         String s;
         System.out.println(Paths.get(".").toAbsolutePath().normalize().toString());
         try {
-
+            //System.out.println(Paths.get(".").toAbsolutePath().normalize().toString());
             Process p = Runtime.getRuntime().exec("python ../CoursysAPI/GetCourseDetails.py"+" 2021 fall cmpt 300 D100"); //Works in IntelliJ
 
             BufferedReader brInput = new BufferedReader(new

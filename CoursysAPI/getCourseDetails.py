@@ -36,6 +36,7 @@ instructorName = instructorJson['name']
 score = rmpScore.makeRMPRequest.returnScoreOfProf(teacherName=instructorName)
 course = department+course
 
-# profscore = ProfScoresDTO(instructor=instructorName,course=course, RMPscore=score)
-# print(profscore.returnJson())
-print(scrapeCourseDiggerForCourse())
+courseDiggerScore = scrapeCourseDiggerForCourse()
+profscore = ProfScoresDTO(instructor=instructorName,
+                          course=course, RMPscore=score, courseDiggerMeanGrade=courseDiggerScore.meanGrade, courseDiggerFailRate=courseDiggerScore.failRate)
+print(profscore.returnJson())
