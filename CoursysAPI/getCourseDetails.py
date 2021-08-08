@@ -1,10 +1,11 @@
+from CourseDiggerScoreExtractor import scrapeCourseDiggerForCourse, generateCoursesIDPairJson
 from dataclasses import dataclass
 import json
 import os
 import sys
 import getopt
 import requests
-import rateMyProfScoreExtractor as rmpScore
+import RateMyProfScoreExtractor as rmpScore
 from ProfScores import ProfScoresDTO
 
 full_cmd_arguments = sys.argv
@@ -35,7 +36,6 @@ instructorName = instructorJson['name']
 score = rmpScore.makeRMPRequest.returnScoreOfProf(teacherName=instructorName)
 course = department+course
 
-profscore = ProfScoresDTO(instructor=instructorName,
-                          course=course, score=score)
-
-print(profscore.returnJson())
+# profscore = ProfScoresDTO(instructor=instructorName,course=course, RMPscore=score)
+# print(profscore.returnJson())
+print(scrapeCourseDiggerForCourse())

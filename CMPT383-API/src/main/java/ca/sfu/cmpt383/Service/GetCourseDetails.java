@@ -1,22 +1,18 @@
-package ca.sfu.cmpt383;
+package ca.sfu.cmpt383.Service;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
+import java.nio.file.Paths;
 
-public class Main {
-    public static void main(String[] args) throws URISyntaxException {
-        System.out.println("Hello world!!!!!");
-        getCourseDetails();
-    }
-
+public class GetCourseDetails {
     public static void getCourseDetails() throws URISyntaxException {
         String s;
-
+        System.out.println(Paths.get(".").toAbsolutePath().normalize().toString());
         try {
-            Process p = Runtime.getRuntime().exec("python CoursysAPI/getCourseDetails.py"+" 2021 fall cmpt 300 D100"); //Works in IntelliJ
+
+            Process p = Runtime.getRuntime().exec("python ../CoursysAPI/GetCourseDetails.py"+" 2021 fall cmpt 300 D100"); //Works in IntelliJ
 
             BufferedReader brInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));
@@ -39,4 +35,3 @@ public class Main {
         }
     }
 }
-

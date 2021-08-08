@@ -1,4 +1,4 @@
-package ProjectServer.src.ca.sfu.cmpt383.DTO;
+package ca.sfu.cmpt383.DTO;
 
 public class ProfScoreDTO {
 

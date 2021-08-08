@@ -7,8 +7,8 @@ from dataclasses import dataclass
 class ProfScoresDTO:
     instructor: str
     course: str
-    courseDiggerDifficulty: float
-    courseDiggerWorkload: float
+    courseDiggerMeanGrade: float
+    courseDiggerFailRate: float
     RMPscore: float
 
     def returnJson(self):
