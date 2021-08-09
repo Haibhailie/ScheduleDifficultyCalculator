@@ -11,11 +11,11 @@ public class Main {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Main.class, args);
-		try {
-			GetCourseDetails.getCourseDetails();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			GetCourseDetails.getCourseDetails();
+//		} catch (URISyntaxException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 }
