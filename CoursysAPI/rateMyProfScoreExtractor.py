@@ -10,9 +10,11 @@ headers = {
 
 class makeRMPRequest:
     def returnScoreOfProf(schoolId: str = "U2Nob29sLTE0ODI", teacherName: str = "Greg+Baker"):
+        if(teacherName == "Gregory+Baker"):
+            teacherName = "Greg+Baker"
+
         profRMPURL = makeRMPRequest.getProfURL(schoolId, teacherName)
         if(profRMPURL == "NA"):
-            print("Professor Not found")
             return -1
         else:
             encodedHTML = urlopen(profRMPURL).read().decode('utf-8')

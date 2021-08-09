@@ -1,3 +1,4 @@
+from CleanInstructorJson import cleanInstructorJson
 from CourseDiggerScoreExtractor import scrapeCourseDiggerForCourse, generateCoursesIDPairJson
 from dataclasses import dataclass
 import json
@@ -30,13 +31,15 @@ for key, value in jsonResponse.items():
     if(key == "instructor"):
         instructorJson = json.dumps(value)
 
-instructorJson = json.loads(instructorJson[1:-1])
-instructorName = instructorJson['name']
-# print(instructorJson['name'])
+instructorName = cleanInstructorJson(instructorJson)
+
 score = rmpScore.makeRMPRequest.returnScoreOfProf(teacherName=instructorName)
 course = department+course
 
 courseDiggerScore = scrapeCourseDiggerForCourse()
 profscore = ProfScoresDTO(instructor=instructorName,
-                          course=course, RMPscore=score, courseDiggerMeanGrade=courseDiggerScore.meanGrade, courseDiggerFailRate=courseDiggerScore.failRate)
+                          course=course,
+                          RMPscore=score,
+                          courseDiggerMeanGrade=courseDiggerScore.meanGrade,
+                          courseDiggerFailRate=courseDiggerScore.failRate)
 print(profscore.returnJson())

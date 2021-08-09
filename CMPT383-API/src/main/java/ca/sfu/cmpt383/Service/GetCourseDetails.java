@@ -1,37 +1,45 @@
 package ca.sfu.cmpt383.Service;
+import ca.sfu.cmpt383.DTO.CourseDTO;
+import ca.sfu.cmpt383.DTO.ProfScoreDTO;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URISyntaxException;
-import java.nio.file.Paths;
 
 public class GetCourseDetails {
-    public static void getCourseDetails() throws URISyntaxException {
-        String s;
-        System.out.println(Paths.get(".").toAbsolutePath().normalize().toString());
-        try {
-            //System.out.println(Paths.get(".").toAbsolutePath().normalize().toString());
-            Process p = Runtime.getRuntime().exec("python ../CoursysAPI/GetCourseDetails.py"+" 2021 fall cmpt 300 D100"); //Works in IntelliJ
 
+    public void createProfScoreDTO(CourseDTO presentCourse){
+        String s, returnedJson="";
+        try {
+            //Process p = Runtime.getRuntime().exec("python ../CoursysAPI/GetCourseDetails.py"+" 2021 fall cmpt 300 D100"); //Works in IntelliJ
+            Process p = Runtime.getRuntime().exec("python ../CoursysAPI/GetCourseDetails.py "+presentCourse.getYear()+
+                    " "+presentCourse.getTerm()+
+                    " "+presentCourse.getDepartment()+
+                    " "+presentCourse.getCourseNumber()+
+                    " "+presentCourse.getSection());
             BufferedReader brInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));
-            BufferedReader brError = new BufferedReader(new
-                    InputStreamReader(p.getErrorStream()));
-
-            System.out.println("A successful read is: ");
+            System.out.println("Request made: ");
             while ((s = brInput.readLine()) != null) {
-                System.out.println(s);
+                if(s.startsWith("{"))
+                    returnedJson = s;
             }
 
-            System.out.println("An unsuccessful read is: ");
-            while ((s = brError.readLine()) != null) {
-                System.out.println(s);
-            }
-            System.exit(0);
+            System.out.println("The JSON procured from the Python application is: \n"+returnedJson);
+            JSONObject jsonObj = new JSONObject(returnedJson.toString());
+            ProfScoreDTO presentProfScore = new ProfScoreDTO(jsonObj.getString("instructor"),
+                    jsonObj.getString("course"),
+                    jsonObj.getString("courseDiggerMeanGrade"),
+                    jsonObj.getDouble("courseDiggerFailRate"),
+                    jsonObj.getDouble("RMPscore")
+                    );
 
-        } catch (IOException e){
+
+        } catch (IOException | JSONException e){
             System.out.println(e);
         }
     }
+
 }
