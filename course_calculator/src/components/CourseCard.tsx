@@ -13,8 +13,8 @@ import Dropdown from "react-dropdown";
 import { useEffect } from "react";
 
 interface courseCardProps {
-  year?: string;
-  term?: string;
+  year: string;
+  term: string;
 }
 
 const CourseCard = (props: courseCardProps) => {
@@ -26,31 +26,24 @@ const CourseCard = (props: courseCardProps) => {
     } else {
       year = 2021;
     }
-    if (props.term) {
-      GetDepDropdownDetails(year, props.term).then(() => {
-        setDepartmentDropdownDisabled(false);
-      });
-    } else {
-      GetDepDropdownDetails(year, Term.SUMMER).then(() => {
-        setDepartmentDropdownDisabled(false);
-      });
-    }
-  });
+    const GetDepDropdownDetails = async (year: number, term: String) => {
+      const departmentFetch = await fetchDepartments(year, term);
+      let labels: string[] = [];
+      for (let department of departmentFetch) {
+        labels.push(department.text);
+      }
+      return labels;
+    };
+    GetDepDropdownDetails(year, props.term ? props.term : Term.SUMMER).then(
+      (res) => setDepartmentLabels(res)
+    );
+    console.log(departmentLabels);
+  }, []);
+
   const [departmentDropdownDisabled, setDepartmentDropdownDisabled] =
     useState<boolean>(false);
-  const [departmentList, setDepartmentList] = useState<Department[]>([]);
   const [departmentLabels, setDepartmentLabels] = useState<string[]>([]);
   const [selectedDepartment, setSelectedDepartment] = useState<string>();
-
-  const GetDepDropdownDetails = async (year: number, term: String) => {
-    const departmentFetch = await fetchDepartments(year, term);
-    setDepartmentList(departmentFetch);
-    let labels: string[] = [];
-    for (let department of departmentList) {
-      labels.push(department.text);
-    }
-    setDepartmentLabels(labels);
-  };
 
   useEffect(() => {
     let year: number = 0;
@@ -59,39 +52,32 @@ const CourseCard = (props: courseCardProps) => {
     } else {
       year = 2021;
     }
-    if (props.term && selectedDepartment) {
-      GetCourseDropdownDetails(year, props.term, selectedDepartment).then(
-        () => {
-          setCourseDropdownDisabled(false);
-        }
-      );
-    } else {
-      GetCourseDropdownDetails(year, Term.SUMMER, "cmpt").then(() => {
-        setCourseDropdownDisabled(false);
-      });
-    }
+    const GetCourseDropdownDetails = async (
+      year: number,
+      term: String,
+      dep: String
+    ) => {
+      let courseFetch = await fetchCourses(year, term, dep);
+      let labels: string[] = [];
+      for (let course of courseFetch) {
+        labels.push(course.text);
+      }
+      return labels;
+    };
+    GetCourseDropdownDetails(
+      year,
+      props.term ? props.term : Term.SUMMER,
+      selectedDepartment ? selectedDepartment : "cmpt"
+    )
+      .then((res) => setCourseLabels(res))
+      .then(() => setCourseDropdownDisabled(false));
   }, [selectedDepartment]);
 
   //Course Variables and functions
   const [courseDropdownDisabled, setCourseDropdownDisabled] =
     useState<boolean>(true);
-  const [courseList, setCourseList] = useState<Course[]>([]);
   const [courseLabels, setCourseLabels] = useState<string[]>([]);
-  const [course, setCourse] = useState<string>();
-
-  const GetCourseDropdownDetails = async (
-    year: number,
-    term: String,
-    dep: String
-  ) => {
-    const courseFetch = await fetchCourses(year, term, dep);
-    setCourseList(courseFetch);
-    let labels: string[] = [];
-    for (let course of courseList) {
-      labels.push(course.text);
-    }
-    setCourseLabels(labels);
-  };
+  const [selectedCourse, setCourse] = useState<string>();
 
   useEffect(() => {
     let year: number = 0;
@@ -100,51 +86,53 @@ const CourseCard = (props: courseCardProps) => {
     } else {
       year = 2021;
     }
-    if (props.term && selectedDepartment && course) {
-      GetSectionDropdownDetails(
-        year,
-        props.term,
-        selectedDepartment,
-        course
-      ).then(() => {
-        setSectionDropdownDisabled(false);
-      });
-    } else {
-      GetSectionDropdownDetails(year, Term.SUMMER, "cmpt", "383").then(() => {
-        setSectionDropdownDisabled(false);
-      });
-    }
-  }, [course]);
+    const GetSectionDropdownDetails = async (
+      year: number,
+      term: String,
+      dep: String,
+      course: String
+    ) => {
+      const sectionFetch = await fetchSections(year, term, dep, course);
+      let labels: string[] = [];
+      for (let section of sectionFetch) {
+        labels.push(section.text);
+      }
+      return labels;
+    };
+    GetSectionDropdownDetails(
+      year,
+      props.term ? props.term : Term.SUMMER,
+      selectedDepartment ? selectedDepartment : "cmpt",
+      selectedCourse ? selectedCourse : "383"
+    )
+      .then((res) => setSectionLabels(res))
+      .then(() => setSectionDropdownDisabled(false));
+  }, [selectedCourse]);
 
   //Section Variables and functions
   const [sectionDropdownDisabled, setSectionDropdownDisabled] =
     useState<boolean>(true);
-  const [sectionList, setSectionList] = useState<Section[]>([]);
   const [sectionLabels, setSectionLabels] = useState<string[]>([]);
   const [section, setSection] = useState<string>();
-
-  const GetSectionDropdownDetails = async (
-    year: number,
-    term: String,
-    dep: String,
-    course: String
-  ) => {
-    const sectionFetch = await fetchSections(year, term, dep, course);
-    setSectionList(sectionFetch);
-    let labels: string[] = [];
-    for (let section of sectionList) {
-      labels.push(section.text);
-    }
-    setSectionLabels(labels);
-  };
 
   useEffect(() => {
     //Add the course card popup here
   }, [section]);
-
   return (
     <>
-      <div style={{ height: 700, width: 250 }}>
+      <div
+        style={{
+          height: 500,
+          width: 250,
+          paddingTop: 20,
+          paddingRight: 30,
+          paddingLeft: 30,
+          border: 5,
+          borderStyle: "solid",
+          borderRadius: 25,
+          margin: 20,
+        }}
+      >
         <Dropdown
           disabled={departmentDropdownDisabled}
           options={departmentLabels}
