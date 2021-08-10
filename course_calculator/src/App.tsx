@@ -1,15 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import {
-  Term,
-  fetchDepartments,
-  Department,
-  Course,
-  fetchCourses,
-  fetchSections,
-  Section,
-} from "./API";
-import { Button } from "react-bootstrap";
+import { Term } from "./API";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 import { useEffect } from "react";
@@ -32,107 +23,6 @@ const App = () => {
   const [selectedTerm, setSelectedTerm] = useState<string>();
 
   useEffect(() => {}, [selectedTerm]);
-
-  // //Department Variables and functions
-  // useEffect(() => {
-  //   let year: number = 0;
-  //   if (selectedYear) {
-  //     year = +selectedYear;
-  //   } else {
-  //     year = 2021;
-  //   }
-  //   const GetDepDropdownDetails = async (year: number, term: String) => {
-  //     const departmentFetch = await fetchDepartments(year, term);
-  //     let labels: string[] = [];
-  //     for (let department of departmentFetch) {
-  //       labels.push(department.text);
-  //     }
-  //     return labels;
-  //   };
-  //   GetDepDropdownDetails(year, selectedTerm ? selectedTerm : Term.SUMMER).then(
-  //     (res) => setDepartmentLabels(res)
-  //   );
-  //   console.log(departmentLabels);
-  // }, [selectedTerm]);
-
-  // const [departmentDropdownDisabled, setDepartmentDropdownDisabled] =
-  //   useState<boolean>(true);
-  // const [departmentLabels, setDepartmentLabels] = useState<string[]>([]);
-  // const [selectedDepartment, setSelectedDepartment] = useState<string>();
-
-  // useEffect(() => {
-  //   let year: number = 0;
-  //   if (selectedYear) {
-  //     year = +selectedYear;
-  //   } else {
-  //     year = 2021;
-  //   }
-  //   const GetCourseDropdownDetails = async (
-  //     year: number,
-  //     term: String,
-  //     dep: String
-  //   ) => {
-  //     let courseFetch = await fetchCourses(year, term, dep);
-  //     let labels: string[] = [];
-  //     for (let course of courseFetch) {
-  //       labels.push(course.text);
-  //     }
-  //     return labels;
-  //   };
-  //   GetCourseDropdownDetails(
-  //     year,
-  //     selectedTerm ? selectedTerm : Term.SUMMER,
-  //     selectedDepartment ? selectedDepartment : "cmpt"
-  //   )
-  //     .then((res) => setCourseLabels(res))
-  //     .then(() => setCourseDropdownDisabled(false));
-  // }, [selectedDepartment]);
-
-  // //Course Variables and functions
-  // const [courseDropdownDisabled, setCourseDropdownDisabled] =
-  //   useState<boolean>(true);
-  // const [courseLabels, setCourseLabels] = useState<string[]>([]);
-  // const [selectedCourse, setCourse] = useState<string>();
-
-  // useEffect(() => {
-  //   let year: number = 0;
-  //   if (selectedYear) {
-  //     year = +selectedYear;
-  //   } else {
-  //     year = 2021;
-  //   }
-  //   const GetSectionDropdownDetails = async (
-  //     year: number,
-  //     term: String,
-  //     dep: String,
-  //     course: String
-  //   ) => {
-  //     const sectionFetch = await fetchSections(year, term, dep, course);
-  //     let labels: string[] = [];
-  //     for (let section of sectionFetch) {
-  //       labels.push(section.text);
-  //     }
-  //     return labels;
-  //   };
-  //   GetSectionDropdownDetails(
-  //     year,
-  //     selectedTerm ? selectedTerm : Term.SUMMER,
-  //     selectedDepartment ? selectedDepartment : "cmpt",
-  //     selectedCourse ? selectedCourse : "383"
-  //   )
-  //     .then((res) => setSectionLabels(res))
-  //     .then(() => setSectionDropdownDisabled(false));
-  // }, [selectedCourse]);
-
-  // //Section Variables and functions
-  // const [sectionDropdownDisabled, setSectionDropdownDisabled] =
-  //   useState<boolean>(true);
-  // const [sectionLabels, setSectionLabels] = useState<string[]>([]);
-  // const [section, setSection] = useState<string>();
-
-  // useEffect(() => {
-  //   //Add the course card popup here
-  // }, [section]);
 
   return (
     <>

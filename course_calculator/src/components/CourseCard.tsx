@@ -1,16 +1,17 @@
 import * as React from "react";
 import { Component, useState } from "react";
 import {
-  Course,
-  Department,
+  DifficultyScore,
+  fetchCourseDifficultyData,
   fetchCourses,
   fetchDepartments,
   fetchSections,
-  Section,
   Term,
 } from "../API";
 import Dropdown from "react-dropdown";
 import { useEffect } from "react";
+import { Button } from "react-bootstrap";
+import { DifficultyCard } from "./DifficultyCard";
 
 interface courseCardProps {
   year: string;
@@ -18,6 +19,7 @@ interface courseCardProps {
 }
 
 const CourseCard = (props: courseCardProps) => {
+  const [difficultyScore, setDifficultyScore] = useState<DifficultyScore>();
   //Department Variables and functions
   useEffect(() => {
     let year: number = 0;
@@ -113,21 +115,61 @@ const CourseCard = (props: courseCardProps) => {
   const [sectionDropdownDisabled, setSectionDropdownDisabled] =
     useState<boolean>(true);
   const [sectionLabels, setSectionLabels] = useState<string[]>([]);
-  const [section, setSection] = useState<string>();
+  const [selectedSection, setSection] = useState<string>();
+
+  const [difficultyVisible, setDifficultyVisible] = useState<boolean>(false);
 
   useEffect(() => {
-    //Add the course card popup here
-  }, [section]);
+    let year: number = 0;
+    if (props.year) {
+      year = +props.year;
+    } else {
+      year = 2021;
+    }
+    const GetSectionDropdownDetails = async (
+      year: number,
+      term: String,
+      dep: String,
+      course: String,
+      section: String
+    ) => {
+      let presentCourseDifficulty: DifficultyScore =
+        await fetchCourseDifficultyData(year, term, dep, course, section);
+      return presentCourseDifficulty;
+    };
+    GetSectionDropdownDetails(
+      year,
+      props.term ? props.term : Term.SUMMER,
+      selectedDepartment ? selectedDepartment : "cmpt",
+      selectedCourse ? selectedCourse : "383",
+      selectedSection ? selectedSection : "D100"
+    ).then((res) => setDifficultyScore(res));
+  }, [difficultyVisible]);
+
+  let defaultDifficultyScore: DifficultyScore = {
+    instructorName: "Greg Baker",
+    courseName: "CMPT 383",
+    courseDiggerGrade: "A",
+    courseDiggerFailRate: 0,
+    courseDifficulty: 0,
+    algorithmScore: 0,
+    overallDifficulty: 0,
+    rmpscore: 0,
+    rmpdifficulty: 0,
+    cddifficulty: 0,
+  };
+
   return (
     <>
       <div
         style={{
-          height: 500,
+          height: 550,
           width: 250,
           paddingTop: 20,
           paddingRight: 30,
           paddingLeft: 30,
           border: 5,
+          borderWidth: 2,
           borderStyle: "solid",
           borderRadius: 25,
           margin: 20,
@@ -153,6 +195,27 @@ const CourseCard = (props: courseCardProps) => {
           onChange={(e) => setSection(e.value)}
           placeholder="Select a section:"
         />
+
+        <Button
+          style={{
+            backgroundColor: "white",
+            borderRadius: 8,
+            height: 40,
+            width: 80,
+            marginTop: 10,
+            marginLeft: 80,
+          }}
+          onClick={() => setDifficultyVisible(true)}
+        >
+          Add Course
+        </Button>
+        {difficultyVisible ? (
+          <DifficultyCard
+            score={difficultyScore ? difficultyScore : defaultDifficultyScore}
+          ></DifficultyCard>
+        ) : (
+          <></>
+        )}
       </div>
     </>
   );

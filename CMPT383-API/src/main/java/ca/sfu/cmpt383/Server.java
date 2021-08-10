@@ -5,10 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import ca.sfu.cmpt383.DTO.ProfScoreDTO;
 import ca.sfu.cmpt383.Service.GetCourseDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class Server {
@@ -17,6 +14,7 @@ public class Server {
 
     // http://localhost:8080/courseAPI/getCourse/2021?term=spring&dep=cogs&courseNum=110&section=D100
     // http://localhost:8080/courseAPI/getCourse/2020?term=summer&dep=cogs&courseNum=110&section=D100
+    @CrossOrigin
     @GetMapping("/courseAPI/getCourse/{year}")
     public ProfScoreDTO getCourseData(@PathVariable String year,
             @RequestParam(value = "term", defaultValue = "summer") String term,

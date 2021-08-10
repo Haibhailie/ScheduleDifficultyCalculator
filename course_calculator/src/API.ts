@@ -25,7 +25,21 @@ export interface Section {
   associatedClass: string;
 }
 
+export interface DifficultyScore {
+  instructorName: string;
+  courseName: string;
+  courseDiggerGrade: string;
+  courseDiggerFailRate: number;
+  courseDifficulty: number;
+  algorithmScore: number;
+  overallDifficulty: number;
+  rmpscore: number;
+  rmpdifficulty: number;
+  cddifficulty: number;
+}
+
 const baseURL = "http://www.sfu.ca/bin/wcm/course-outlines?";
+const baseDifficultyURL = "http://localhost:8080/courseAPI/getCourse/";
 
 export const fetchDepartments = async (year: number, term: String) => {
   const getDepartmentsURL = baseURL + year + "/" + term;
@@ -60,4 +74,28 @@ export const fetchSections = async (
   return sectionData;
 };
 
-// export const getCourseDifficulty = async (year: number, term: String, dep: String, )
+export const fetchCourseDifficultyData = async (
+  year: number,
+  term: String,
+  dep: String,
+  course: String,
+  section: String
+) => {
+  const getDifficultyURL =
+    baseDifficultyURL +
+    year +
+    "?" +
+    "term=" +
+    term +
+    "&dep=" +
+    dep +
+    "&courseNum=" +
+    course +
+    "&section=" +
+    section;
+  let difficultyResponse: DifficultyScore;
+  const difficultyData = await (await fetch(getDifficultyURL))
+    .json()
+    .then((res) => (difficultyResponse = <DifficultyScore>res));
+  return difficultyData;
+};
