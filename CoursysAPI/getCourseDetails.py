@@ -2,9 +2,7 @@ from CleanInstructorJson import cleanInstructorJson
 from CourseDiggerScoreExtractor import scrapeCourseDiggerForCourse, generateCoursesIDPairJson
 from dataclasses import dataclass
 import json
-import os
 import sys
-import getopt
 import requests
 import RateMyProfScoreExtractor as rmpScore
 from ProfScores import ProfScoresDTO

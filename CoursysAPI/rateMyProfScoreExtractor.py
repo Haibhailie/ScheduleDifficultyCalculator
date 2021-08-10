@@ -1,6 +1,5 @@
 import re
 import requests
-import os
 from urllib.request import urlopen
 
 headers = {
