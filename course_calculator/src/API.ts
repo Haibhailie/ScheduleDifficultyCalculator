@@ -25,6 +25,17 @@ export interface Section {
   associatedClass: string;
 }
 
+const defaultSection: Section[] = [
+  {
+    text: "d100",
+    value: "d100",
+    title: "d100",
+    classType: "d100",
+    sectionCode: "d100",
+    associatedClass: "d100",
+  },
+];
+
 export interface DifficultyScore {
   instructorName: string;
   courseName: string;
@@ -68,9 +79,12 @@ export const fetchSections = async (
 ) => {
   const getSectionURL = baseURL + year + "/" + term + "/" + dep + "/" + course;
   let sectionArray: Section[];
-  const sectionData = await (await fetch(getSectionURL))
+  const sectionData = await (
+    await fetch(getSectionURL)
+  )
     .json()
-    .then((res) => (sectionArray = <Section[]>res));
+    .then((res) => (sectionArray = <Section[]>res))
+    .catch((err) => defaultSection);
   return sectionData;
 };
 

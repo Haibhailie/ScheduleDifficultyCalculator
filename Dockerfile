@@ -30,6 +30,15 @@ RUN apt-get update \
 RUN apt-get update\
   && apt-get install maven -y
 
+RUN apt-get update \
+  && apt-get install nodejs npm -y
+
+COPY /course_calculator/ /course_calculator/
+WORKDIR /course_calculator
+RUN npm install
+
+WORKDIR /
+
 COPY /CMPT383-API /CMPT383-API
 COPY /CoursysAPI /CoursysAPI
 
@@ -40,8 +49,12 @@ WORKDIR /CMPT383-API
 RUN mvn clean install -DskipTests
 RUN mvn package -DskipTests
 
+
 WORKDIR /
 EXPOSE 8080
-#RUN javac /CMPT383-API/src/main/java/ca/sfu/cmpt383/Main.java
-#CMD java -classpath /CMPT383-API/target/classes/ ca.sfu.cmpt383.Main
 ENTRYPOINT ["java","-jar","/CMPT383-API/target/CMPT383-API-0.0.1-SNAPSHOT.jar"]
+
+WORKDIR /course_calculator
+EXPOSE 3000
+RUN npm install
+RUN npm start &

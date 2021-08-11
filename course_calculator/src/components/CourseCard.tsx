@@ -12,7 +12,6 @@ import Dropdown from "react-dropdown";
 import { useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { DifficultyCard } from "./DifficultyCard";
-import { useDebugValue } from "react";
 
 interface courseCardProps {
   year: string;
@@ -122,7 +121,7 @@ const CourseCard = (props: courseCardProps) => {
       year,
       props.term ? props.term : Term.SUMMER,
       selectedDepartment ? selectedDepartment : "cmpt",
-      selectedCourse ? selectedCourse : "383"
+      selectedCourse ? selectedCourse : "120"
     )
       .then((res) => setSectionLabels(res))
       .then(() => setSectionDropdownDisabled(false));
@@ -152,7 +151,7 @@ const CourseCard = (props: courseCardProps) => {
       year,
       props.term ? props.term : Term.SUMMER,
       selectedDepartment ? selectedDepartment : "cmpt",
-      selectedCourse ? selectedCourse : "383",
+      selectedCourse ? selectedCourse : "120",
       selectedSection ? selectedSection : "D100"
     ).then((res) => setDifficultyScore(res));
   }, [difficultyVisible]);
