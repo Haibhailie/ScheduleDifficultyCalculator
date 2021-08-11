@@ -2,15 +2,14 @@ import re
 import requests
 from urllib.request import urlopen
 
+#
 headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36"
+    "User-Agent": "Mozilla/91.0 (Windows NT 10.0; Win64; x64) Chrome/92.0.4515.131"
 }
 
 
 class makeRMPRequest:
     def returnScoreOfProf(schoolId: str = "U2Nob29sLTE0ODI", teacherName: str = "Greg+Baker"):
-        if(teacherName == "Gregory+Baker"):
-            teacherName = "Greg+Baker"
 
         profRMPURL = makeRMPRequest.getProfURL(schoolId, teacherName)
         if(profRMPURL == "NA"):

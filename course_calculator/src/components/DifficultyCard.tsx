@@ -8,7 +8,6 @@ interface DifficultyProps {
 }
 
 export const DifficultyCard = (props: DifficultyProps) => {
-  console.log(props.score.cddifficulty);
   const [profName, setProfName] = useState<string>("");
   const [cdGrade, setCdGrade] = useState<string>("");
   const [cdFailRate, setCdFailRate] = useState<number>(0);
@@ -21,7 +20,7 @@ export const DifficultyCard = (props: DifficultyProps) => {
   useEffect(() => {
     setProfName(props.score.instructorName);
     setCdGrade(props.score.courseDiggerGrade);
-    setCdFailRate(props.score.courseDiggerFailRate);
+    setCdFailRate(Math.round(props.score.courseDiggerFailRate));
     setCourseDifficulty(props.score.courseDifficulty);
     setAlgorithmScore(props.score.algorithmScore);
     setRmpScore(props.score.rmpscore);
@@ -40,25 +39,25 @@ export const DifficultyCard = (props: DifficultyProps) => {
         justifyContent: "space-between",
       }}
     >
-      <text style={{ padding: 10 }}>Instructor Name: {profName}</text>
-      <text style={{ padding: 10 }}>CD Mean Grade: {cdGrade}</text>
-      <text style={{ padding: 10 }}>CD Fail Rate: {cdFailRate}%</text>
-      <text style={{ padding: 10 }}>CD Difficulty: {cdDifficulty}/10</text>
+      <text style={{ padding: 7 }}>Instructor Name: {profName}</text>
+      <text style={{ padding: 7 }}>CD Mean Grade: {cdGrade}</text>
+      <text style={{ padding: 7 }}>CD Fail Rate: {cdFailRate}%</text>
+      <text style={{ padding: 7 }}>CD Difficulty: {cdDifficulty}/10</text>
       {rmpScore == -1 ? (
-        <text style={{ padding: 10 }}>RMP Score: Unknown</text>
+        <text style={{ padding: 7 }}>RMP Score: Unknown</text>
       ) : (
-        <text style={{ padding: 10 }}>RMP Score: {rmpScore}/5</text>
+        <text style={{ padding: 7 }}>RMP Score: {rmpScore}/5</text>
       )}
       {rmpScore == -1 ? (
-        <text style={{ padding: 10 }}>RMP Difficulty: Unknown</text>
+        <text style={{ padding: 7 }}>RMP Difficulty: Unknown</text>
       ) : (
-        <text style={{ padding: 10 }}>RMP Difficulty: {rmpDifficulty}/10</text>
+        <text style={{ padding: 7 }}>RMP Difficulty: {rmpDifficulty}/10</text>
       )}
 
-      <text style={{ padding: 10 }}>
+      <text style={{ padding: 7 }}>
         Course Difficulty: {courseDifficulty}/10
       </text>
-      <text style={{ padding: 10 }}>
+      <text style={{ padding: 7 }}>
         Overall Difficulty: {algorithmScore}/30
       </text>
     </div>

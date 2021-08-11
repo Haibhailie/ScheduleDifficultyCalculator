@@ -7,21 +7,23 @@ import { useEffect } from "react";
 import CourseCard from "./components/CourseCard";
 import titleImage from "./images/title.jpg";
 import { GlobalStyle } from "./App.styles";
+import { Button } from "react-bootstrap";
 
 const App = () => {
   //Year Variables and functions
   const yearList: string[] = ["2019", "2020", "2021"];
   const [selectedYear, setSelectedYear] = useState<string>();
+  const termList = [Term.SPRING, Term.SUMMER, Term.FALL];
+  const [termDropdownDisabled, setTermDropDownDisabled] =
+    useState<boolean>(true);
+  const [selectedTerm, setSelectedTerm] = useState<string>();
+  const [viewCards, setViewCards] = useState<boolean>(false);
+
   useEffect(() => {
     setTermDropDownDisabled(false);
   }, [selectedYear]);
 
   //Term Variables and functions
-  const termList = [Term.SPRING, Term.SUMMER, Term.FALL];
-  const [termDropdownDisabled, setTermDropDownDisabled] =
-    useState<boolean>(true);
-  const [selectedTerm, setSelectedTerm] = useState<string>();
-
   useEffect(() => {}, [selectedTerm]);
 
   return (
@@ -33,6 +35,7 @@ const App = () => {
           <div
             style={{
               marginLeft: 350,
+              marginRight: 320,
               width: 400,
               display: "flex",
               flexDirection: "column",
@@ -52,61 +55,91 @@ const App = () => {
               placeholder="Select a term:"
             />
           </div>
-          <h1
+          <Button
             style={{
-              marginLeft: 400,
+              backgroundColor: "white",
+              borderRadius: 8,
+              height: 40,
+              width: 80,
+              marginTop: 10,
+              marginLeft: 510,
             }}
+            onClick={() => setViewCards(true)}
           >
-            Select your courses
-          </h1>
-          <div style={{ display: "flex", flexDirection: "column", margin: 20 }}>
+            Add Course
+          </Button>
+          {viewCards ? (
             <>
-              <div
+              <h1
                 style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  marginTop: 5,
+                  marginLeft: 400,
                 }}
               >
-                <CourseCard
-                  year={selectedYear ? selectedYear : "2021"}
-                  term={selectedTerm ? selectedTerm : Term.SUMMER}
-                ></CourseCard>
+                Select your courses
+              </h1>
 
-                <CourseCard
-                  year={selectedYear ? selectedYear : "2021"}
-                  term={selectedTerm ? selectedTerm : Term.SUMMER}
-                ></CourseCard>
+              <div
+                style={{ display: "flex", flexDirection: "column", margin: 20 }}
+              >
+                <>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      marginTop: 5,
+                    }}
+                  >
+                    <CourseCard
+                      year={selectedYear ? selectedYear : "2021"}
+                      term={selectedTerm ? selectedTerm : Term.SUMMER}
+                    ></CourseCard>
 
-                <CourseCard
-                  year={selectedYear ? selectedYear : "2021"}
-                  term={selectedTerm ? selectedTerm : Term.SUMMER}
-                ></CourseCard>
+                    <CourseCard
+                      year={selectedYear ? selectedYear : "2021"}
+                      term={selectedTerm ? selectedTerm : Term.SUMMER}
+                    ></CourseCard>
+
+                    <CourseCard
+                      year={selectedYear ? selectedYear : "2021"}
+                      term={selectedTerm ? selectedTerm : Term.SUMMER}
+                    ></CourseCard>
+                  </div>
+                </>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    marginTop: 40,
+                  }}
+                >
+                  <CourseCard
+                    year={selectedYear ? selectedYear : "2021"}
+                    term={selectedTerm ? selectedTerm : Term.SUMMER}
+                  ></CourseCard>
+
+                  <CourseCard
+                    year={selectedYear ? selectedYear : "2021"}
+                    term={selectedTerm ? selectedTerm : Term.SUMMER}
+                  ></CourseCard>
+
+                  <CourseCard
+                    year={selectedYear ? selectedYear : "2021"}
+                    term={selectedTerm ? selectedTerm : Term.SUMMER}
+                  ></CourseCard>
+                </div>
               </div>
             </>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                marginTop: 40,
-              }}
-            >
-              <CourseCard
-                year={selectedYear ? selectedYear : "2021"}
-                term={selectedTerm ? selectedTerm : Term.SUMMER}
-              ></CourseCard>
-
-              <CourseCard
-                year={selectedYear ? selectedYear : "2021"}
-                term={selectedTerm ? selectedTerm : Term.SUMMER}
-              ></CourseCard>
-
-              <CourseCard
-                year={selectedYear ? selectedYear : "2021"}
-                term={selectedTerm ? selectedTerm : Term.SUMMER}
-              ></CourseCard>
-            </div>
-          </div>
+          ) : (
+            <>
+              <h1
+                style={{
+                  marginLeft: 400,
+                }}
+              >
+                Enter the year and term
+              </h1>
+            </>
+          )}
         </div>
       </div>
     </>

@@ -32,9 +32,9 @@ for key, value in jsonResponse.items():
 instructorName = cleanInstructorJson(instructorJson)
 
 score = rmpScore.makeRMPRequest.returnScoreOfProf(teacherName=instructorName)
-course = department+course
+course = department.upper()+" "+course
 
-courseDiggerScore = scrapeCourseDiggerForCourse()
+courseDiggerScore = scrapeCourseDiggerForCourse(course)
 profscore = ProfScoresDTO(instructor=instructorName,
                           course=course,
                           RMPscore=score,

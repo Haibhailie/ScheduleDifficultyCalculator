@@ -12,6 +12,7 @@ import Dropdown from "react-dropdown";
 import { useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { DifficultyCard } from "./DifficultyCard";
+import { useDebugValue } from "react";
 
 interface courseCardProps {
   year: string;
@@ -20,6 +21,34 @@ interface courseCardProps {
 
 const CourseCard = (props: courseCardProps) => {
   const [difficultyScore, setDifficultyScore] = useState<DifficultyScore>();
+  const [departmentDropdownDisabled, setDepartmentDropdownDisabled] =
+    useState<boolean>(false);
+  const [departmentLabels, setDepartmentLabels] = useState<string[]>([]);
+  const [selectedDepartment, setSelectedDepartment] = useState<string>();
+  const [courseDropdownDisabled, setCourseDropdownDisabled] =
+    useState<boolean>(true);
+  const [courseLabels, setCourseLabels] = useState<string[]>([]);
+  const [selectedCourse, setCourse] = useState<string>();
+  const [sectionDropdownDisabled, setSectionDropdownDisabled] =
+    useState<boolean>(true);
+  const [sectionLabels, setSectionLabels] = useState<string[]>([]);
+  const [selectedSection, setSection] = useState<string>();
+  const [difficultyVisible, setDifficultyVisible] = useState<boolean>(false);
+  const [resetFields, setResetFields] = useState<boolean>();
+  const [submitCourseButton, setSubmitCourseButton] = useState<boolean>();
+
+  useEffect(() => {
+    setSelectedDepartment("");
+    setCourseLabels([]);
+    setCourse("");
+    setSectionLabels([]);
+    setResetFields(false);
+  }, [resetFields]);
+
+  useEffect(() => {
+    setSubmitCourseButton(false);
+  }, [selectedSection]);
+
   //Department Variables and functions
   useEffect(() => {
     let year: number = 0;
@@ -39,13 +68,7 @@ const CourseCard = (props: courseCardProps) => {
     GetDepDropdownDetails(year, props.term ? props.term : Term.SUMMER).then(
       (res) => setDepartmentLabels(res)
     );
-    console.log(departmentLabels);
   }, []);
-
-  const [departmentDropdownDisabled, setDepartmentDropdownDisabled] =
-    useState<boolean>(false);
-  const [departmentLabels, setDepartmentLabels] = useState<string[]>([]);
-  const [selectedDepartment, setSelectedDepartment] = useState<string>();
 
   useEffect(() => {
     let year: number = 0;
@@ -74,12 +97,6 @@ const CourseCard = (props: courseCardProps) => {
       .then((res) => setCourseLabels(res))
       .then(() => setCourseDropdownDisabled(false));
   }, [selectedDepartment]);
-
-  //Course Variables and functions
-  const [courseDropdownDisabled, setCourseDropdownDisabled] =
-    useState<boolean>(true);
-  const [courseLabels, setCourseLabels] = useState<string[]>([]);
-  const [selectedCourse, setCourse] = useState<string>();
 
   useEffect(() => {
     let year: number = 0;
@@ -112,12 +129,6 @@ const CourseCard = (props: courseCardProps) => {
   }, [selectedCourse]);
 
   //Section Variables and functions
-  const [sectionDropdownDisabled, setSectionDropdownDisabled] =
-    useState<boolean>(true);
-  const [sectionLabels, setSectionLabels] = useState<string[]>([]);
-  const [selectedSection, setSection] = useState<string>();
-
-  const [difficultyVisible, setDifficultyVisible] = useState<boolean>(false);
 
   useEffect(() => {
     let year: number = 0;
@@ -204,7 +215,10 @@ const CourseCard = (props: courseCardProps) => {
             width: 80,
             marginTop: 10,
             marginLeft: 80,
+            color: "white",
+            background: "green",
           }}
+          disabled={submitCourseButton}
           onClick={() => setDifficultyVisible(true)}
         >
           Add Course
@@ -213,6 +227,28 @@ const CourseCard = (props: courseCardProps) => {
           <DifficultyCard
             score={difficultyScore ? difficultyScore : defaultDifficultyScore}
           ></DifficultyCard>
+        ) : (
+          <></>
+        )}
+        {difficultyVisible ? (
+          <Button
+            style={{
+              backgroundColor: "white",
+              borderRadius: 8,
+              height: 40,
+              width: 80,
+              marginTop: 10,
+              marginLeft: 80,
+              color: "white",
+              background: "red",
+            }}
+            onClick={() => {
+              setDifficultyVisible(false);
+              setResetFields(true);
+            }}
+          >
+            Remove Course
+          </Button>
         ) : (
           <></>
         )}
