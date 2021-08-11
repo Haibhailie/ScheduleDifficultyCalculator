@@ -49,12 +49,10 @@ WORKDIR /CMPT383-API
 RUN mvn clean install -DskipTests
 RUN mvn package -DskipTests
 
+WORKDIR /course_calculator
+RUN npm install
 
 WORKDIR /
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","/CMPT383-API/target/CMPT383-API-0.0.1-SNAPSHOT.jar"]
-
-WORKDIR /course_calculator
 EXPOSE 3000
-RUN npm install
-RUN npm start &
+CMD java -jar /CMPT383-API/target/CMPT383-API-0.0.1-SNAPSHOT.jar & cd /course_calculator && npm start
