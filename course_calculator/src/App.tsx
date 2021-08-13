@@ -14,10 +14,15 @@ import titleImage from "./images/title.jpg";
 import { GlobalStyle } from "./App.styles";
 import { Button } from "react-bootstrap";
 import { OverallDifficultyCard } from "./components/OverallDifficulty";
+import { LoadingComp } from "./components/LoadingComp";
 
 function useForceUpdate() {
   const [value, setValue] = useState(0); // integer state
   return () => setValue((value) => value + 1); // update the state to force render
+}
+
+function refreshPage() {
+  window.location.reload(false);
 }
 
 const App = () => {
@@ -175,6 +180,24 @@ const App = () => {
                   ></OverallDifficultyCard>
                 </div>
               </div>
+              <Button
+                style={{
+                  backgroundColor: "white",
+                  borderRadius: 8,
+                  height: 60,
+                  width: 100,
+                  marginTop: 30,
+                  marginLeft: 500,
+                  color: "white",
+                  fontWeight: "bold",
+                  background: "red",
+                }}
+                onClick={() => {
+                  refreshPage();
+                }}
+              >
+                Refresh All
+              </Button>
             </>
           ) : (
             <>

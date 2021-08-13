@@ -13,6 +13,8 @@ import { useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { DifficultyCard } from "./DifficultyCard";
 
+import { LoadingComp } from "./LoadingComp";
+
 interface courseCardProps {
   year: string;
   term: string;
@@ -41,6 +43,7 @@ const CourseCard = (props: courseCardProps) => {
   const [difficultyVisible, setDifficultyVisible] = useState<boolean>(false);
   const [resetFields, setResetFields] = useState<boolean>();
   const [submitCourseButton, setSubmitCourseButton] = useState<boolean>();
+  const [isLoading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     setSelectedDepartment("");
@@ -116,10 +119,14 @@ const CourseCard = (props: courseCardProps) => {
       dep: String,
       course: String
     ) => {
-      const sectionFetch = await fetchSections(year, term, dep, course);
       let labels: string[] = [];
-      for (let section of sectionFetch) {
-        labels.push(section.text);
+      try {
+        const sectionFetch = await fetchSections(year, term, dep, course);
+        for (let section of sectionFetch) {
+          labels.push(section.text);
+        }
+      } catch {
+        labels = ["SECTIONS NOT FOUND"];
       }
       return labels;
     };
@@ -167,8 +174,8 @@ const CourseCard = (props: courseCardProps) => {
         );
       })
       .finally(() => {
-        timeDelay();
         props.updateParent();
+        setLoading(false);
       });
   }, [difficultyVisible]);
 
@@ -189,10 +196,6 @@ const CourseCard = (props: courseCardProps) => {
     rmpscore: 0,
     rmpdifficulty: 0,
     cddifficulty: 0,
-  };
-
-  const timeDelay = async () => {
-    await timeout(1000);
   };
 
   return (
@@ -217,21 +220,18 @@ const CourseCard = (props: courseCardProps) => {
           onChange={(e) => setSelectedDepartment(e.value)}
           placeholder="Select a department:"
         />
-
         <Dropdown
           disabled={courseDropdownDisabled}
           options={courseLabels}
           onChange={(e) => setCourse(e.value)}
           placeholder="Select a course:"
         />
-
         <Dropdown
           disabled={sectionDropdownDisabled}
           options={sectionLabels}
           onChange={(e) => setSection(e.value)}
           placeholder="Select a section:"
         />
-
         <Button
           style={{
             backgroundColor: "white",
@@ -255,7 +255,23 @@ const CourseCard = (props: courseCardProps) => {
             score={difficultyScore ? difficultyScore : defaultDifficultyScore}
           ></DifficultyCard>
         ) : (
-          <></>
+          <div
+            style={{
+              display: "flex",
+              marginTop: 100,
+              alignContent: "center",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
+            }}
+          >
+            <text
+              style={{ padding: 7, justifyContent: "center", marginBottom: 20 }}
+            >
+              Select the above parameters
+            </text>
+            <LoadingComp />
+          </div>
         )}
         {difficultyVisible ? (
           <Button

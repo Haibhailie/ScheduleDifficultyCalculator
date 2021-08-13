@@ -36,17 +36,17 @@ const calculateOverallDifficulty = (courses: DifficultyScore[]) => {
     if (presentCourse.overallDifficulty == 0) {
       localExpectedWorkload = localExpectedWorkload + 0;
     } else if (presentCourse.overallDifficulty < 10) {
-      localExpectedWorkload = localExpectedWorkload + 8;
+      localExpectedWorkload = localExpectedWorkload + 4;
     } else if (presentCourse.overallDifficulty < 15) {
+      localExpectedWorkload = localExpectedWorkload + 6;
+    } else if (presentCourse.overallDifficulty < 20) {
+      localExpectedWorkload = localExpectedWorkload + 8;
+    } else if (presentCourse.overallDifficulty < 20) {
       localExpectedWorkload = localExpectedWorkload + 12;
-    } else if (presentCourse.overallDifficulty < 20) {
-      localExpectedWorkload = localExpectedWorkload + 16;
-    } else if (presentCourse.overallDifficulty < 20) {
-      localExpectedWorkload = localExpectedWorkload + 16;
     } else if (presentCourse.overallDifficulty < 25) {
-      localExpectedWorkload = localExpectedWorkload + 20;
+      localExpectedWorkload = localExpectedWorkload + 14;
     } else if (presentCourse.overallDifficulty < 30) {
-      localExpectedWorkload = localExpectedWorkload + 24;
+      localExpectedWorkload = localExpectedWorkload + 16;
     }
   }
   let calculatedOverallDifficulty: OverallDifficulty = {
@@ -105,7 +105,7 @@ export const OverallDifficultyCard = (props: OverallDifficultyProps) => {
             alignContent: "center",
             alignItems: "center",
             justifyContent: "flex-start",
-            height: 350,
+            height: 320,
             width: 650,
             paddingTop: 20,
             paddingRight: 30,
@@ -145,21 +145,6 @@ export const OverallDifficultyCard = (props: OverallDifficultyProps) => {
               marginTop: 10,
               color: "white",
               background: "red",
-            }}
-            onClick={forceUpdate}
-          >
-            Refresh
-          </Button>
-
-          <Button
-            style={{
-              backgroundColor: "white",
-              borderRadius: 8,
-              height: 40,
-              width: 80,
-              marginTop: 10,
-              color: "white",
-              background: "grey",
             }}
             onClick={() => {
               setShowDifficultyCard(false);
