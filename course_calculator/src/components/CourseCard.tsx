@@ -202,6 +202,7 @@ const CourseCard = (props: courseCardProps) => {
     <>
       <div
         style={{
+          background: "white",
           height: 550,
           width: 250,
           paddingTop: 20,
