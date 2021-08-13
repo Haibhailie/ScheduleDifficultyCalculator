@@ -17,6 +17,11 @@ interface courseCardProps {
   year: string;
   term: string;
   setCardState: (card: DifficultyScore) => void;
+  updateParent: () => void;
+}
+
+function timeout(delay: number) {
+  return new Promise((res) => setTimeout(res, delay));
 }
 
 const CourseCard = (props: courseCardProps) => {
@@ -154,14 +159,24 @@ const CourseCard = (props: courseCardProps) => {
       selectedDepartment ? selectedDepartment : "cmpt",
       selectedCourse ? selectedCourse : "",
       selectedSection ? selectedSection : "D100"
-    ).then((res) => setDifficultyScore(res));
+    )
+      .then((res) => setDifficultyScore(res))
+      .then(() => {
+        props.setCardState(
+          difficultyScore ? difficultyScore : defaultDifficultyScore
+        );
+      })
+      .finally(() => {
+        timeDelay();
+        props.updateParent();
+      });
   }, [difficultyVisible]);
 
   useEffect(() => {
     props.setCardState(
       difficultyScore ? difficultyScore : defaultDifficultyScore
     );
-  }, [difficultyVisible]);
+  }, [difficultyScore]);
 
   let defaultDifficultyScore: DifficultyScore = {
     instructorName: "Greg Baker",
@@ -174,6 +189,10 @@ const CourseCard = (props: courseCardProps) => {
     rmpscore: 0,
     rmpdifficulty: 0,
     cddifficulty: 0,
+  };
+
+  const timeDelay = async () => {
+    await timeout(1000);
   };
 
   return (
@@ -225,7 +244,9 @@ const CourseCard = (props: courseCardProps) => {
             background: "green",
           }}
           disabled={submitCourseButton}
-          onClick={() => setDifficultyVisible(true)}
+          onClick={(e) => {
+            setDifficultyVisible(true);
+          }}
         >
           Add Course
         </Button>

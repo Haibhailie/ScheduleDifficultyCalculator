@@ -15,7 +15,13 @@ import { GlobalStyle } from "./App.styles";
 import { Button } from "react-bootstrap";
 import { OverallDifficultyCard } from "./components/OverallDifficulty";
 
+function useForceUpdate() {
+  const [value, setValue] = useState(0); // integer state
+  return () => setValue((value) => value + 1); // update the state to force render
+}
+
 const App = () => {
+  const forceUpdate = useForceUpdate();
   //Year Variables and functions
   const yearList: string[] = ["2019", "2020", "2021"];
   const [selectedYear, setSelectedYear] = useState<string>();
@@ -32,7 +38,6 @@ const App = () => {
   const [courseD, setCourseD] = useState<DifficultyScore>(defaultDifficulty);
   const [courseE, setCourseE] = useState<DifficultyScore>(defaultDifficulty);
   const [courseF, setCourseF] = useState<DifficultyScore>(defaultDifficulty);
-
   useEffect(() => {
     setTermDropDownDisabled(false);
   }, [selectedYear]);
@@ -107,18 +112,21 @@ const App = () => {
                       year={selectedYear ? selectedYear : "2021"}
                       term={selectedTerm ? selectedTerm : Term.SUMMER}
                       setCardState={setCourseA}
+                      updateParent={forceUpdate}
                     ></CourseCard>
 
                     <CourseCard
                       year={selectedYear ? selectedYear : "2021"}
                       term={selectedTerm ? selectedTerm : Term.SUMMER}
                       setCardState={setCourseB}
+                      updateParent={forceUpdate}
                     ></CourseCard>
 
                     <CourseCard
                       year={selectedYear ? selectedYear : "2021"}
                       term={selectedTerm ? selectedTerm : Term.SUMMER}
                       setCardState={setCourseC}
+                      updateParent={forceUpdate}
                     ></CourseCard>
                   </div>
                 </>
@@ -133,18 +141,21 @@ const App = () => {
                     year={selectedYear ? selectedYear : "2021"}
                     term={selectedTerm ? selectedTerm : Term.SUMMER}
                     setCardState={setCourseD}
+                    updateParent={forceUpdate}
                   ></CourseCard>
 
                   <CourseCard
                     year={selectedYear ? selectedYear : "2021"}
                     term={selectedTerm ? selectedTerm : Term.SUMMER}
                     setCardState={setCourseE}
+                    updateParent={forceUpdate}
                   ></CourseCard>
 
                   <CourseCard
                     year={selectedYear ? selectedYear : "2021"}
                     term={selectedTerm ? selectedTerm : Term.SUMMER}
                     setCardState={setCourseF}
+                    updateParent={forceUpdate}
                   ></CourseCard>
                 </div>
               </div>

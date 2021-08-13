@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect } from "react";
 import { Component, useState } from "react";
 import { Button } from "react-bootstrap";
 import { DifficultyScore, OverallDifficulty } from "../API";
@@ -32,7 +33,9 @@ const calculateOverallDifficulty = (courses: DifficultyScore[]) => {
       localRmpDifficulty = localRmpDifficulty + presentCourse.rmpdifficulty;
       localCdDifficulty = localCdDifficulty + presentCourse.cddifficulty;
     }
-    if (presentCourse.overallDifficulty < 10) {
+    if (presentCourse.overallDifficulty == 0) {
+      localExpectedWorkload = localExpectedWorkload + 0;
+    } else if (presentCourse.overallDifficulty < 10) {
       localExpectedWorkload = localExpectedWorkload + 8;
     } else if (presentCourse.overallDifficulty < 15) {
       localExpectedWorkload = localExpectedWorkload + 12;
@@ -66,6 +69,25 @@ export const OverallDifficultyCard = (props: OverallDifficultyProps) => {
     props.courseE,
     props.courseF,
   ];
+
+  useEffect(() => {
+    courses = [
+      props.courseA,
+      props.courseB,
+      props.courseC,
+      props.courseD,
+      props.courseE,
+      props.courseF,
+    ];
+  }, [
+    props.courseA,
+    props.courseB,
+    props.courseC,
+    props.courseD,
+    props.courseE,
+    props.courseF,
+  ]);
+
   const [overallDifficultyData, setOverallDifficultyData] =
     useState<OverallDifficulty>(calculateOverallDifficulty(courses));
   const [showDifficultyCard, setShowDifficultyCard] = useState<boolean>(false);
@@ -99,6 +121,19 @@ export const OverallDifficultyCard = (props: OverallDifficultyProps) => {
           <h2>Overall Difficulty</h2>
           <text style={{ padding: 7 }}>
             Course List: {overallDifficultyData.courseList}
+          </text>
+          <text style={{ padding: 7 }}>
+            Ratemyprof Difficulty: {overallDifficultyData.rmpDifficulty}
+          </text>
+          <text style={{ padding: 7 }}>
+            CourseDigger Difficulty: {overallDifficultyData.cdDifficulty}
+          </text>
+          <text style={{ padding: 7 }}>
+            Algorithm difficulty: {overallDifficultyData.algorithmDifficulty}
+          </text>
+          <text style={{ padding: 7 }}>
+            Expect to spend at least {overallDifficultyData.expectedWorkload}{" "}
+            hours every week.
           </text>
 
           <Button
