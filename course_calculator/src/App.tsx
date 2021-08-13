@@ -1,6 +1,11 @@
 import React from "react";
 import { useState } from "react";
-import { Term } from "./API";
+import {
+  defaultDifficulty,
+  DifficultyScore,
+  OverallDifficulty,
+  Term,
+} from "./API";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 import { useEffect } from "react";
@@ -8,6 +13,7 @@ import CourseCard from "./components/CourseCard";
 import titleImage from "./images/title.jpg";
 import { GlobalStyle } from "./App.styles";
 import { Button } from "react-bootstrap";
+import { OverallDifficultyCard } from "./components/OverallDifficulty";
 
 const App = () => {
   //Year Variables and functions
@@ -18,6 +24,14 @@ const App = () => {
     useState<boolean>(true);
   const [selectedTerm, setSelectedTerm] = useState<string>();
   const [viewCards, setViewCards] = useState<boolean>(false);
+
+  //Different Courses to calculate overall score in main menu
+  const [courseA, setCourseA] = useState<DifficultyScore>(defaultDifficulty);
+  const [courseB, setCourseB] = useState<DifficultyScore>(defaultDifficulty);
+  const [courseC, setCourseC] = useState<DifficultyScore>(defaultDifficulty);
+  const [courseD, setCourseD] = useState<DifficultyScore>(defaultDifficulty);
+  const [courseE, setCourseE] = useState<DifficultyScore>(defaultDifficulty);
+  const [courseF, setCourseF] = useState<DifficultyScore>(defaultDifficulty);
 
   useEffect(() => {
     setTermDropDownDisabled(false);
@@ -92,16 +106,19 @@ const App = () => {
                     <CourseCard
                       year={selectedYear ? selectedYear : "2021"}
                       term={selectedTerm ? selectedTerm : Term.SUMMER}
+                      setCardState={setCourseA}
                     ></CourseCard>
 
                     <CourseCard
                       year={selectedYear ? selectedYear : "2021"}
                       term={selectedTerm ? selectedTerm : Term.SUMMER}
+                      setCardState={setCourseB}
                     ></CourseCard>
 
                     <CourseCard
                       year={selectedYear ? selectedYear : "2021"}
                       term={selectedTerm ? selectedTerm : Term.SUMMER}
+                      setCardState={setCourseC}
                     ></CourseCard>
                   </div>
                 </>
@@ -115,17 +132,36 @@ const App = () => {
                   <CourseCard
                     year={selectedYear ? selectedYear : "2021"}
                     term={selectedTerm ? selectedTerm : Term.SUMMER}
+                    setCardState={setCourseD}
                   ></CourseCard>
 
                   <CourseCard
                     year={selectedYear ? selectedYear : "2021"}
                     term={selectedTerm ? selectedTerm : Term.SUMMER}
+                    setCardState={setCourseE}
                   ></CourseCard>
 
                   <CourseCard
                     year={selectedYear ? selectedYear : "2021"}
                     term={selectedTerm ? selectedTerm : Term.SUMMER}
+                    setCardState={setCourseF}
                   ></CourseCard>
+                </div>
+              </div>
+              <div
+                style={{
+                  marginLeft: 200,
+                }}
+              >
+                <div>
+                  <OverallDifficultyCard
+                    courseA={courseA}
+                    courseB={courseB}
+                    courseC={courseC}
+                    courseD={courseD}
+                    courseE={courseE}
+                    courseF={courseF}
+                  ></OverallDifficultyCard>
                 </div>
               </div>
             </>

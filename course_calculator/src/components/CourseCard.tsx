@@ -16,6 +16,7 @@ import { DifficultyCard } from "./DifficultyCard";
 interface courseCardProps {
   year: string;
   term: string;
+  setCardState: (card: DifficultyScore) => void;
 }
 
 const CourseCard = (props: courseCardProps) => {
@@ -121,7 +122,7 @@ const CourseCard = (props: courseCardProps) => {
       year,
       props.term ? props.term : Term.SUMMER,
       selectedDepartment ? selectedDepartment : "cmpt",
-      selectedCourse ? selectedCourse : "120"
+      selectedCourse ? selectedCourse : ""
     )
       .then((res) => setSectionLabels(res))
       .then(() => setSectionDropdownDisabled(false));
@@ -151,14 +152,20 @@ const CourseCard = (props: courseCardProps) => {
       year,
       props.term ? props.term : Term.SUMMER,
       selectedDepartment ? selectedDepartment : "cmpt",
-      selectedCourse ? selectedCourse : "120",
+      selectedCourse ? selectedCourse : "",
       selectedSection ? selectedSection : "D100"
     ).then((res) => setDifficultyScore(res));
   }, [difficultyVisible]);
 
+  useEffect(() => {
+    props.setCardState(
+      difficultyScore ? difficultyScore : defaultDifficultyScore
+    );
+  }, [difficultyVisible]);
+
   let defaultDifficultyScore: DifficultyScore = {
     instructorName: "Greg Baker",
-    courseName: "CMPT 383",
+    courseName: "",
     courseDiggerGrade: "A",
     courseDiggerFailRate: 0,
     courseDifficulty: 0,

@@ -40,4 +40,5 @@ profscore = ProfScoresDTO(instructor=instructorName,
                           RMPscore=score,
                           courseDiggerMeanGrade=courseDiggerScore.meanGrade,
                           courseDiggerFailRate=courseDiggerScore.failRate)
+                          
 print(profscore.returnJson())

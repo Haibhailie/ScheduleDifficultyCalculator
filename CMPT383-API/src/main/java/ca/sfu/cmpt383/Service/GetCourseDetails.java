@@ -18,14 +18,16 @@ public class GetCourseDetails {
             // Process p = Runtime.getRuntime().exec("python
             // ../CoursysAPI/GetCourseDetails.py"+" 2021 fall cmpt 300 D100"); //Works in
             // IntelliJ
+            String processCommand = "python ../CoursysAPI/GetCourseDetails.py " + presentCourse.getYear() + " "
+                    + presentCourse.getTerm() + " " + presentCourse.getDepartment() + " "
+                    + presentCourse.getCourseNumber() + " " + presentCourse.getSection();
+            System.out.println(processCommand);
             Process p = Runtime.getRuntime()
-                    .exec("python ../CoursysAPI/GetCourseDetails.py " + presentCourse.getYear() + " "
-                            + presentCourse.getTerm() + " " + presentCourse.getDepartment() + " "
-                            + presentCourse.getCourseNumber() + " " + presentCourse.getSection());
+                    .exec(processCommand);
             BufferedReader brInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
             System.out.println("Request made: ");
             while ((s = brInput.readLine()) != null) {
-                if (s.startsWith("{"))
+                    System.out.println(s);
                     returnedJson = s;
             }
 

@@ -49,6 +49,27 @@ export interface DifficultyScore {
   cddifficulty: number;
 }
 
+export interface OverallDifficulty {
+  courseList: string;
+  algorithmDifficulty: number;
+  rmpDifficulty: number;
+  cdDifficulty: number;
+  expectedWorkload: number;
+}
+
+export const defaultDifficulty: DifficultyScore = {
+  instructorName: "",
+  courseName: "",
+  courseDiggerGrade: "",
+  courseDiggerFailRate: 0,
+  courseDifficulty: 0,
+  algorithmScore: 0,
+  overallDifficulty: 0,
+  rmpscore: 0,
+  rmpdifficulty: 0,
+  cddifficulty: 0,
+};
+
 const baseURL = "http://www.sfu.ca/bin/wcm/course-outlines?";
 const baseDifficultyURL = "http://localhost:8080/courseAPI/getCourse/";
 
